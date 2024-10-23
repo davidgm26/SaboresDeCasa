@@ -1,9 +1,6 @@
 package com.safa.saboresdecasa.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.List;
@@ -28,6 +25,6 @@ public class Cliente {
     private String dni;
 
     private String telefono;
-
+    @OneToMany(mappedBy = "pedido")
     private List<Pedido> pedidos;
 }

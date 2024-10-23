@@ -1,9 +1,6 @@
 package com.safa.saboresdecasa.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.Date;
@@ -21,10 +18,13 @@ public class Pedido {
     @GeneratedValue
     private long idPedido;
 
-    private long idCliente;
+    @ManyToOne()
+    @JoinColumn(name = "id_pedido")
+    private Cliente cliente;
 
     private Date fechaPedido;
 
+    @OneToMany(cascade =  CascadeType.ALL,mappedBy = "pedido", fetch = FetchType.LAZY)
     private List<LinPedido> lineasPedido;
 
 }
