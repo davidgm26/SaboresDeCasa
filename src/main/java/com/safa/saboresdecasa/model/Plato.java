@@ -1,13 +1,15 @@
 package com.safa.saboresdecasa.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -18,12 +20,18 @@ import lombok.NoArgsConstructor;
 public class Plato {
 
     @Id
-    @GeneratedValue()
-    private long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
+    @Column(name = "nombre", length = 150 ,nullable = false)
     private String nombre;
 
+    @Column(name = "precio", nullable = false)
     private double precio;
 
+
     private Formato formato;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "plato",fetch = FetchType.LAZY)
+    private Set<LinPedido> linPedido = new HashSet<>();
 }

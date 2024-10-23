@@ -15,17 +15,21 @@ import lombok.NoArgsConstructor;
 public class LinPedido {
 
     @Id
-    @GeneratedValue()
-    private long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
+    @Column(name = "valor")
     private double valor;
 
+    @Column(name = "cantidad")
     private int cantidad;
 
     @ManyToOne()
     private Pedido pedido ;
 
-    private long idPlato;
+    @ManyToOne
+    @JoinColumn(name = "plato_id")
+    private Plato plato;
 
 
 }

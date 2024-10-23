@@ -3,8 +3,7 @@ package com.safa.saboresdecasa.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -15,16 +14,17 @@ import java.util.List;
 public class Pedido {
 
     @Id
-    @GeneratedValue
-    private long idPedido;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
     @ManyToOne()
-    @JoinColumn(name = "id_pedido")
+    @JoinColumn(name = "pedido")
     private Cliente cliente;
 
+    @Column(name = "fecha")
     private Date fechaPedido;
 
     @OneToMany(cascade =  CascadeType.ALL,mappedBy = "pedido", fetch = FetchType.LAZY)
-    private List<LinPedido> lineasPedido;
+    private Set<LinPedido> lineasPedido = new HashSet<>();
 
 }
