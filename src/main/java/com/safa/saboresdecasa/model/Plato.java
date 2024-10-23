@@ -1,10 +1,7 @@
 package com.safa.saboresdecasa.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -29,9 +26,7 @@ public class Plato {
     @Column(name = "precio", nullable = false)
     private double precio;
 
-
+    @Enumerated(EnumType.STRING)
     private Formato formato;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "plato",fetch = FetchType.LAZY)
-    private Set<LinPedido> linPedido = new HashSet<>();
 }
