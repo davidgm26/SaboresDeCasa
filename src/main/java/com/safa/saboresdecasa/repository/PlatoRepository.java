@@ -13,4 +13,6 @@ public interface PlatoRepository extends JpaRepository<Plato, Integer> {
 
 
     List<Plato> findAllByFormato(Formato formato);
+
+    Plato findPlatoByNombre(String nombre);
 }

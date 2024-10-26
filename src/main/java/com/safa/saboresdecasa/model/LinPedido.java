@@ -1,5 +1,6 @@
 package com.safa.saboresdecasa.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,11 +26,12 @@ public class LinPedido {
     private int cantidad;
 
     @ManyToOne()
+    @JsonIgnore()
+    @JoinColumn(name = "pedido")
     private Pedido pedido ;
 
     @ManyToOne
-    @JoinColumn(name = "plato_id")
+    @JoinColumn(name = "plato")
     private Plato plato;
-
 
 }

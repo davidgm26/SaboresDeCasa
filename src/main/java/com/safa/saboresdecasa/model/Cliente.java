@@ -4,9 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+
 
 
 @AllArgsConstructor
@@ -34,5 +33,5 @@ public class Cliente {
     private String telefono;
 
     @OneToMany(mappedBy = "cliente")
-    private Set<Pedido> pedidos = new HashSet<>();
+    private List<Pedido> pedidos = new ArrayList<>();
 }

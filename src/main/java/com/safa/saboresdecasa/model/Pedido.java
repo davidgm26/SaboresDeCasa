@@ -10,6 +10,10 @@ import java.util.*;
 @Data
 @Builder
 @Entity
+@NamedEntityGraph(
+        name = "Pedido.lineasPedido",
+        attributeNodes = @NamedAttributeNode("lineasPedido")
+)
 @Table(name="pedido")
 public class Pedido {
 
@@ -18,13 +22,16 @@ public class Pedido {
     private Integer id;
 
     @ManyToOne()
-    @JoinColumn(name = "pedido")
+    @JoinColumn(name = "cliente")
     private Cliente cliente;
 
     @Column(name = "fecha")
     private Date fechaPedido;
 
     @OneToMany(cascade =  CascadeType.ALL,mappedBy = "pedido", fetch = FetchType.LAZY)
-    private Set<LinPedido> lineasPedido = new HashSet<>();
+    private List<LinPedido> lineasPedido = new ArrayList<>();
+
+    @Column(name = "total" )
+    private Double total;
 
 }
