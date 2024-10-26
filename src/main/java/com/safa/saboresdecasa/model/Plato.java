@@ -26,7 +26,8 @@ public class Plato {
     @Column(name = "precio", nullable = false)
     private double precio;
 
-    @Enumerated(EnumType.STRING)
+    @ManyToOne
+    @JoinColumn(name = "formato",nullable = false)
     private Formato formato;
 
 }
