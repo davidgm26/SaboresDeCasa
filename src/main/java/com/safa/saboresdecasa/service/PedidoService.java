@@ -76,19 +76,21 @@ public class PedidoService {
         pedidoRepository.save(pedido);
         return PedidoDto.crearPedidoDtoFromPedido(pedido);
     }
-//    public PedidoDto editarPedido(PeticionClienteDto dto, int id) {
-//        Pedido p = pedidoRepository.findPedidoById(id); //Más tarde esto lanzara una excepcion que nosotros podremos controlar y gestionar la respuesta.
-//            dto.getPlatos().forEach(lineaDto -> {
-//                p.getLineasPedido().forEach(linea -> {
-//                    if(linea.getId() == lineaDto.getIdLinea()){
-//                        linPedidoService.editarLinea(linPedidoService.buscarLinea(lineaDto.getIdLinea()));
-//                    }
-//                });
-//            });
-//            pedidoRepository.save(p);
-//        return PedidoDto.crearPedidoDtoFromPedido(p);
-//
-//    }
+
+    public PedidoDto editarPedido(EditarPedidoDto dto, int id) {
+        Pedido p = pedidoRepository.findPedidoById(id); //Más tarde esto lanzara una excepcion que nosotros podremos controlar y gestionar la respuesta.
+        p.setTotal(0.0);
+        dto.getLineas().forEach(linea -> {
+                    p.getLineasPedido().forEach(lineaPedido -> {
+                        if (lineaPedido.getId() == linea.getIdLinea()) {
+                            LinPedido lineaP = linPedidoService.editarLinea(linea);
+                            p.setTotal(lineaP.getValor()+p.getTotal());
+                        }
+                    });
+                });
+        pedidoRepository.save(p);
+        return PedidoDto.crearPedidoDtoFromPedido(p);
+    }
 
 }
 

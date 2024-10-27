@@ -1,5 +1,6 @@
 package com.safa.saboresdecasa.controller;
 
+import com.safa.saboresdecasa.dto.EditarPedidoDto;
 import com.safa.saboresdecasa.dto.PedidoDto;
 import com.safa.saboresdecasa.dto.PeticionClienteDto;
 import com.safa.saboresdecasa.service.PedidoService;
@@ -37,8 +38,8 @@ public class PedidoController {
         return pedidoService.crearPedido(dto);
     }
 
-//    @PutMapping("/{id}")
-//    public PedidoDto actualizarPedido(@PathVariable int id, @RequestBody PedidoDto dto){
-//        return pedidoService.editarPedido(dto, id);
-//    }
+    @PutMapping("/{id}")
+    public PedidoDto actualizarPedido(@PathVariable int id, @RequestBody EditarPedidoDto dto){
+        return pedidoService.editarPedido(dto, id);
+    }
 }

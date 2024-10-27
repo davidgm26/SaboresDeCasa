@@ -1,5 +1,6 @@
 package com.safa.saboresdecasa.service;
 
+import com.safa.saboresdecasa.dto.EditarPedidoPlatoDto;
 import com.safa.saboresdecasa.dto.LineaDto;
 import com.safa.saboresdecasa.model.LinPedido;
 import com.safa.saboresdecasa.model.Pedido;
@@ -38,10 +39,11 @@ public class LinPedidoService {
         );
     }
 
-    public LinPedido editarLinea(LineaDto dto){
+    public LinPedido editarLinea(EditarPedidoPlatoDto dto){
         LinPedido linea = lineaPedidoRepository.findById(dto.getIdLinea());
         linea.setCantidad(dto.getCantidad());
-        linea.setPlato(platoService.getPlatoById(dto.getIdplato()));
+        linea.setPlato(platoService.getPlatoById(dto.getIdPlato()));
+        linea.setValor(dto.getCantidad()*platoService.getPlatoById(dto.getIdPlato()).getPrecio());
         return lineaPedidoRepository.save(linea);
     }
 
