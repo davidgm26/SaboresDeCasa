@@ -1,13 +1,12 @@
 package com.safa.saboresdecasa.repository;
 
-import com.safa.saboresdecasa.model.LinPedido;
+import com.safa.saboresdecasa.model.Cliente;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
 
-public interface LineaPedidoRepository extends JpaRepository<LinPedido, Long> {
+public interface ClienteRepository extends JpaRepository<Cliente, Integer> {
 
-    LinPedido findById(int idLinea);
-
+    Cliente findByNombre(String nombre);
 }

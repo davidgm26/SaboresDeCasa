@@ -1,6 +1,6 @@
 package com.safa.saboresdecasa.service;
 
-import com.safa.saboresdecasa.dto.CrearLineaDto;
+import com.safa.saboresdecasa.dto.LineaDto;
 import com.safa.saboresdecasa.model.LinPedido;
 import com.safa.saboresdecasa.model.Pedido;
 import com.safa.saboresdecasa.model.Plato;
@@ -22,16 +22,27 @@ public class LinPedidoService {
     @Autowired
     private LineaPedidoRepository lineaPedidoRepository;
 
+    public LineaDto buscarLinea(int id){
+        LinPedido linea =  lineaPedidoRepository.findById(id);
+    return LineaDto.createLineaDtoFromLinea(linea);
 
-    public LinPedido crearLinea(CrearLineaDto crearLineaDto, Pedido pedido) {
-        Plato plato = platoService.getPlatoByNombre(crearLineaDto.getPlato());
+    }
+
+    public LinPedido crearLinea(LineaDto lineaDto, Pedido pedido) {
         return lineaPedidoRepository.save(LinPedido.builder()
-                .plato(plato)
-                .cantidad(crearLineaDto.getCantidad())
-                .valor(crearLineaDto.getCantidad() * plato.getPrecio())
+                .plato(platoService.getPlatoById(lineaDto.getIdplato()))
+                .cantidad(lineaDto.getCantidad())
+                .valor(lineaDto.getCantidad() * platoService.getPlatoById(lineaDto.getIdplato()).getPrecio())
                 .pedido(pedido)
                 .build()
         );
+    }
+
+    public LinPedido editarLinea(LineaDto dto){
+        LinPedido linea = lineaPedidoRepository.findById(dto.getIdLinea());
+        linea.setCantidad(dto.getCantidad());
+        linea.setPlato(platoService.getPlatoById(dto.getIdplato()));
+        return lineaPedidoRepository.save(linea);
     }
 
     public List<LinPedido> findAll() {

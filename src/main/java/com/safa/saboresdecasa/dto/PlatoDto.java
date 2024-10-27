@@ -14,6 +14,7 @@ public class PlatoDto {
 
     private String formato;
 
+
     public static PlatoDto convertPlatotoDto(Plato plato) {
         return PlatoDto.builder().precio(plato.getPrecio())
                 .nombre(plato.getNombre())

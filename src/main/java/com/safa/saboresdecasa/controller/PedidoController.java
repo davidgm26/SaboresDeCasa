@@ -1,16 +1,11 @@
 package com.safa.saboresdecasa.controller;
 
-import com.safa.saboresdecasa.dto.CrearLineaDto;
 import com.safa.saboresdecasa.dto.PedidoDto;
-import com.safa.saboresdecasa.model.LinPedido;
-import com.safa.saboresdecasa.model.Pedido;
+import com.safa.saboresdecasa.dto.PeticionClienteDto;
 import com.safa.saboresdecasa.service.PedidoService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -32,4 +27,18 @@ public class PedidoController {
     public PedidoDto mostrarPedidoPorId(@PathVariable int id){
         return pedidoService.findPedidoById(id);
     }
+    @GetMapping("/total/{id}")
+    public Double mostrarTotal(@PathVariable int id ){
+        return pedidoService.findPedidoById(id).getTotal();
+    }
+
+    @PostMapping("/")
+    public PedidoDto crearPedido(@RequestBody PeticionClienteDto dto){
+        return pedidoService.crearPedido(dto);
+    }
+
+//    @PutMapping("/{id}")
+//    public PedidoDto actualizarPedido(@PathVariable int id, @RequestBody PedidoDto dto){
+//        return pedidoService.editarPedido(dto, id);
+//    }
 }

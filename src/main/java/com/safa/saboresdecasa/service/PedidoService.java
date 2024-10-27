@@ -1,14 +1,16 @@
 package com.safa.saboresdecasa.service;
 
-import com.safa.saboresdecasa.dto.CrearLineaDto;
-import com.safa.saboresdecasa.dto.PedidoDto;
+import com.safa.saboresdecasa.dto.*;
 import com.safa.saboresdecasa.model.LinPedido;
 import com.safa.saboresdecasa.model.Pedido;
+import com.safa.saboresdecasa.model.Plato;
+import com.safa.saboresdecasa.repository.LineaPedidoRepository;
 import com.safa.saboresdecasa.repository.PedidoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,6 +22,12 @@ public class PedidoService {
     private LinPedidoService linPedidoService;
     @Autowired
     private PedidoRepository pedidoRepository;
+    @Autowired
+    private ClienteService clienteService;
+    @Autowired
+    private PlatoService platoService;
+    @Autowired
+    private LineaPedidoRepository lineaPedidoRepository;
 
 
     public List<PedidoDto>getAllPedidos(){
@@ -28,35 +36,60 @@ public class PedidoService {
     }
 
 
-    public List<CrearLineaDto> getLineas(){
+    public List<LineaDto> getLineas() {
         List<LinPedido> linPedidos = linPedidoService.findAll();
-        return linPedidos.stream().map(CrearLineaDto::createLineaDtoFromLinea).collect(Collectors.toList());
+        return linPedidos.stream().map(LineaDto::createLineaDtoFromLinea).collect(Collectors.toList());
     }
     public PedidoDto findPedidoById(Integer id) {
 
         return PedidoDto.crearPedidoDtoFromPedido(pedidoRepository.findById(id).orElse(null));
     }
 
-    public double calcularPedido(Pedido pedido){
-          pedido.getLineasPedido().forEach(linPedido -> {
-              pedido.setTotal(pedido.getTotal() + linPedido.getValor());
-          });
-          return pedido.getTotal();
+    public double calcularPedido(Pedido p) {
+        double total = 0.0;
+        for (LinPedido linPedido : p.getLineasPedido()) {
+            total += linPedido.getValor();
+        }
+        return total;
     }
 
-    public Pedido crearPedido(){
-        return Pedido.builder()
-                .total(0.0)
-                .build();
+    public PedidoDto crearPedido(PeticionClienteDto dto) {
+        Pedido pedido = new Pedido();
+        pedido.setCliente(clienteService.findById(dto.getIdCliente()));
+        pedido.setFechaPedido(LocalDate.now());
+        pedidoRepository.save(pedido);
+        double total = 0.0;
+        for (CrearPedidoPlatoDto platoSolicitado : dto.getPlatos()) {
+            Plato plato = platoService.getPlatoById(platoSolicitado.getIdPlato());
+            double valorLinea = platoSolicitado.getCantidad() * plato.getPrecio();
+            total += valorLinea;
+            LineaDto lineaDto = LineaDto.builder()
+                    .cantidad(platoSolicitado.getCantidad())
+                    .valor(valorLinea)
+                    .idplato(platoSolicitado.getIdPlato())
+                    .build();
+            LinPedido linPedido = linPedidoService.crearLinea(lineaDto, pedido);
+            linPedido.setPedido(pedido);
+            pedido.getLineasPedido().add(linPedido);
+        }
+        pedido.setTotal(total);
+        pedidoRepository.save(pedido);
+        return PedidoDto.crearPedidoDtoFromPedido(pedido);
     }
-
-    public Pedido asignarLineas(List<CrearLineaDto>lineas,Integer id){
-        Pedido pedido = pedidoRepository.findPedidoById(id);
-        lineas.forEach(crearLineaDto -> {
-            pedido.getLineasPedido().add(linPedidoService.crearLinea(crearLineaDto,pedido));
-        });
-        pedido.setTotal(calcularPedido(pedido));
-        return pedidoRepository.save(pedido);
-    }
+//    public PedidoDto editarPedido(PeticionClienteDto dto, int id) {
+//        Pedido p = pedidoRepository.findPedidoById(id); //Más tarde esto lanzara una excepcion que nosotros podremos controlar y gestionar la respuesta.
+//            dto.getPlatos().forEach(lineaDto -> {
+//                p.getLineasPedido().forEach(linea -> {
+//                    if(linea.getId() == lineaDto.getIdLinea()){
+//                        linPedidoService.editarLinea(linPedidoService.buscarLinea(lineaDto.getIdLinea()));
+//                    }
+//                });
+//            });
+//            pedidoRepository.save(p);
+//        return PedidoDto.crearPedidoDtoFromPedido(p);
+//
+//    }
 
 }
+
+

@@ -1,15 +1,14 @@
 package com.safa.saboresdecasa.dto;
 
 
-import com.safa.saboresdecasa.model.Cliente;
 import com.safa.saboresdecasa.model.LinPedido;
 import com.safa.saboresdecasa.model.Pedido;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Data
@@ -17,17 +16,17 @@ import java.util.List;
 @Builder
 public class PedidoDto {
 
-    private Date fecha;
+    private LocalDate fecha;
     private String cliente;
-    private List <CrearLineaDto> lineas;
+    private List <LineaDto> lineas;
     private double total;
 
     public static PedidoDto crearPedidoDtoFromPedido(Pedido pedido){
 
-        List<CrearLineaDto> lineasRecibidas = new ArrayList<>();
+        List<LineaDto> lineasRecibidas = new ArrayList<>();
 
         for (LinPedido linPedido : pedido.getLineasPedido()) {
-            lineasRecibidas.add(CrearLineaDto.createLineaDtoFromLinea(linPedido));
+            lineasRecibidas.add(LineaDto.createLineaDtoFromLinea(linPedido));
         }
 
         return PedidoDto.builder()
