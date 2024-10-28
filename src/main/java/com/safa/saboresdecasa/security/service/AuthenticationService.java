@@ -3,7 +3,6 @@ package com.safa.saboresdecasa.security.service;
 import com.safa.saboresdecasa.model.Rol;
 import com.safa.saboresdecasa.model.Usuario;
 import com.safa.saboresdecasa.repository.UsuarioRepository;
-import com.safa.saboresdecasa.security.JwtService;
 import com.safa.saboresdecasa.security.dto.AuthenticationRequest;
 import com.safa.saboresdecasa.security.dto.AuthenticationResponse;
 import com.safa.saboresdecasa.security.dto.RegisterRequest;

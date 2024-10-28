@@ -1,4 +1,4 @@
-package com.safa.saboresdecasa.security;
+package com.safa.saboresdecasa.security.controller;
 
 import com.safa.saboresdecasa.security.dto.AuthenticationRequest;
 import com.safa.saboresdecasa.security.dto.AuthenticationResponse;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/saboresdecasa/ ")
+@RequestMapping("/saboresdecasa")
 @RequiredArgsConstructor
 public class AuthenticationController {
 
