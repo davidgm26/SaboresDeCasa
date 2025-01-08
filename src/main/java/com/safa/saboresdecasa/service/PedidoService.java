@@ -26,8 +26,6 @@ public class PedidoService {
     private ClienteService clienteService;
     @Autowired
     private PlatoService platoService;
-    @Autowired
-    private LineaPedidoRepository lineaPedidoRepository;
 
 
     public List<PedidoDto>getAllPedidos(){

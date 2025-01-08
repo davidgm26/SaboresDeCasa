@@ -28,6 +28,7 @@ public class PedidoController {
     public PedidoDto mostrarPedidoPorId(@PathVariable int id){
         return pedidoService.findPedidoById(id);
     }
+        
     @GetMapping("/total/{id}")
     public Double mostrarTotal(@PathVariable int id ){
         return pedidoService.findPedidoById(id).getTotal();
