@@ -33,6 +33,10 @@ public class PlatoService {
         return platos.stream().map(PlatoDto::convertPlatotoDto).collect(Collectors.toList());
     }
 
+    public Plato guardarPlato(Plato plato) {
+        return platoRepository.save(plato);
+    }
+
     public Plato getPlatoById(int id) {
         return platoRepository.findById(id).orElse(null);
     }

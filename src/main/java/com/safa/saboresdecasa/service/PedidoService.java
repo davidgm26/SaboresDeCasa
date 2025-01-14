@@ -90,6 +90,9 @@ public class PedidoService {
         return PedidoDto.crearPedidoDtoFromPedido(p);
     }
 
+    public Pedido guardarPedido(Pedido pedido){
+       return pedidoRepository.save(pedido);
+    }
 }
 
 
