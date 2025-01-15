@@ -114,4 +114,13 @@ public class LinPedidoServiceTest {
         assert !lineas.isEmpty();
         assertEquals(2, lineas.size());
     }
+
+    @Test
+    public void comprobarLineasPedidoErroneo(){
+        List<LinPedido> lineas = lineaPedidoRepository.findAll();
+        assert !lineas.isEmpty();
+        assertEquals(0, lineas.size());
+    }
+
+
 }

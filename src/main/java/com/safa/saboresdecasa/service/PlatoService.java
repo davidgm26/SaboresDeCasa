@@ -1,6 +1,7 @@
 package com.safa.saboresdecasa.service;
 
 import com.safa.saboresdecasa.dto.PlatoDto;
+import com.safa.saboresdecasa.error.exceptions.PlatoNotFound;
 import com.safa.saboresdecasa.model.Plato;
 import com.safa.saboresdecasa.repository.FormatoRepository;
 import com.safa.saboresdecasa.repository.PlatoRepository;
@@ -38,7 +39,7 @@ public class PlatoService {
     }
 
     public Plato getPlatoById(int id) {
-        return platoRepository.findById(id).orElse(null);
+        return platoRepository.findById(id).orElseThrow(() -> new PlatoNotFound(id));
     }
 
     public Plato getPlatoByNombre(String nombre) {

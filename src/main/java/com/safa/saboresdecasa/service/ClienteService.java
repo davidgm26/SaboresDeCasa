@@ -1,6 +1,7 @@
 package com.safa.saboresdecasa.service;
 
 import com.safa.saboresdecasa.dto.PedidoDto;
+import com.safa.saboresdecasa.error.exceptions.ClienteNotFound;
 import com.safa.saboresdecasa.model.Cliente;
 import com.safa.saboresdecasa.model.Pedido;
 import com.safa.saboresdecasa.repository.ClienteRepository;
@@ -19,7 +20,7 @@ public class ClienteService {
     private ClienteRepository clienteRepository;
 
     public Cliente findById(int id) {
-        return clienteRepository.findById(id).get();
+        return clienteRepository.findById(id).orElseThrow( () -> new ClienteNotFound(id));
     }
 
     public List<PedidoDto> findAllPedidos(int id) {

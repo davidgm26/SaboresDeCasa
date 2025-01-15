@@ -1,6 +1,7 @@
 package com.safa.saboresdecasa.service;
 
 import com.safa.saboresdecasa.dto.*;
+import com.safa.saboresdecasa.error.exceptions.PedidoNotFound;
 import com.safa.saboresdecasa.model.LinPedido;
 import com.safa.saboresdecasa.model.Pedido;
 import com.safa.saboresdecasa.model.Plato;
@@ -39,8 +40,11 @@ public class PedidoService {
         return linPedidos.stream().map(LineaDto::createLineaDtoFromLinea).collect(Collectors.toList());
     }
     public PedidoDto findPedidoById(Integer id) {
+        return PedidoDto.crearPedidoDtoFromPedido(pedidoRepository.findById(id).orElseThrow(() -> new PedidoNotFound(id)));
+    }
 
-        return PedidoDto.crearPedidoDtoFromPedido(pedidoRepository.findById(id).orElse(null));
+    public Pedido findPedidoByIdNoDto(Integer id) {
+        return pedidoRepository.findById(id).orElseThrow(() -> new PedidoNotFound(id));
     }
 
     public double calcularPedido(Pedido p) {

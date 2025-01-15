@@ -111,8 +111,14 @@ public class PedidoServiceTest {
 
     @Test
     public void BuscarPedidoPorIdTest() {
-     Pedido p = pedidoRepository.findPedidoById(1);
-     assertEquals(2,p.getLineasPedido().size());
+     PedidoDto p = pedidoService.findPedidoById(1);
+     assertEquals(2,p.getLineas().size());
+    }
+
+    @Test
+    public void BuscarPedidoPorIdTestErroneo() {
+        PedidoDto p = pedidoService.findPedidoById(159);
+        assertEquals(2,p.getLineas().size());
     }
 
 
